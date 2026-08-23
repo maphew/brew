@@ -1817,7 +1817,7 @@ RSpec.describe Homebrew::Service do
         services_dir.mkpath
         env_file = services_dir / "formula_name.env"
         env_file.write "OLLAMA_HOST=0.0.0.0"
-        File.chmod 0666, env_file
+        File.chmod 0666, env_file.to_s
 
         expect { f.service.effective_environment_variables }.to output(/world-writable/).to_stderr
         vars = f.service.effective_environment_variables
@@ -1839,7 +1839,7 @@ RSpec.describe Homebrew::Service do
         services_dir.mkpath
         env_file = services_dir / "formula_name.env"
         env_file.write "OLLAMA_HOST=0.0.0.0"
-        File.chmod 0664, env_file
+        File.chmod 0664, env_file.to_s
 
         expect { f.service.effective_environment_variables }.to output(/group-writable/).to_stderr
         vars = f.service.effective_environment_variables
@@ -1861,7 +1861,7 @@ RSpec.describe Homebrew::Service do
         services_dir.mkpath
         target = services_dir / "actual.env"
         target.write "OLLAMA_HOST=0.0.0.0"
-        File.chmod 0644, target
+        File.chmod 0644, target.to_s
 
         symlink = services_dir / "formula_name.env"
         File.symlink(target, symlink)
