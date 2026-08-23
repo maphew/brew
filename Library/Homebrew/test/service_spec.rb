@@ -1643,6 +1643,7 @@ RSpec.describe Homebrew::Service do
   describe "#effective_environment_variables" do
     it "returns formula vars when no env override file exists" do
       f = stub_formula do
+        T.bind(self, T.class_of(Formula))
         service do
           run opt_bin/"beanstalkd"
           environment_variables FOO: "BAR"
@@ -1655,6 +1656,7 @@ RSpec.describe Homebrew::Service do
 
     it "merges user env overrides with formula vars" do
       f = stub_formula do
+        T.bind(self, T.class_of(Formula))
         service do
           run opt_bin/"beanstalkd"
           environment_variables FOO: "BAR"
@@ -1676,6 +1678,7 @@ RSpec.describe Homebrew::Service do
 
     it "user env overrides take precedence over formula vars" do
       f = stub_formula do
+        T.bind(self, T.class_of(Formula))
         service do
           run opt_bin/"beanstalkd"
           environment_variables FOO: "BAR"
@@ -1697,6 +1700,7 @@ RSpec.describe Homebrew::Service do
 
     it "ignores comments and blank lines in env file" do
       f = stub_formula do
+        T.bind(self, T.class_of(Formula))
         service do
           run opt_bin/"beanstalkd"
           environment_variables FOO: "BAR"
@@ -1722,6 +1726,7 @@ RSpec.describe Homebrew::Service do
 
     it "skips lines without = and strips whitespace around =" do
       f = stub_formula do
+        T.bind(self, T.class_of(Formula))
         service do
           run opt_bin/"beanstalkd"
         end
@@ -1752,6 +1757,7 @@ RSpec.describe Homebrew::Service do
 
     it "includes user env overrides in to_plist" do
       f = stub_formula do
+        T.bind(self, T.class_of(Formula))
         service do
           run [opt_bin/"beanstalkd", "test"]
           environment_variables FOO: "BAR"
@@ -1776,6 +1782,7 @@ RSpec.describe Homebrew::Service do
 
     it "includes user env overrides in to_systemd_unit" do
       f = stub_formula do
+        T.bind(self, T.class_of(Formula))
         service do
           run opt_bin/"beanstalkd"
           environment_variables FOO: "BAR"
@@ -1798,6 +1805,7 @@ RSpec.describe Homebrew::Service do
 
     it "skips world-writable env files" do
       f = stub_formula do
+        T.bind(self, T.class_of(Formula))
         service do
           run opt_bin/"beanstalkd"
           environment_variables FOO: "BAR"
@@ -1819,6 +1827,7 @@ RSpec.describe Homebrew::Service do
 
     it "skips group-writable env files" do
       f = stub_formula do
+        T.bind(self, T.class_of(Formula))
         service do
           run opt_bin/"beanstalkd"
           environment_variables FOO: "BAR"
@@ -1840,6 +1849,7 @@ RSpec.describe Homebrew::Service do
 
     it "follows symlinks to a safe target" do
       f = stub_formula do
+        T.bind(self, T.class_of(Formula))
         service do
           run opt_bin/"beanstalkd"
           environment_variables FOO: "BAR"
