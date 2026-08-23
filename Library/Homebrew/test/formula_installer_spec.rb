@@ -541,6 +541,13 @@ RSpec.describe FormulaInstaller do
         conflicts_with "testball"
       end
     end
+    let(:self_conflicting_formula) do
+      formula("terraform", tap: Tap.fetch("thirdparty", "selfconflict")) do
+        T.bind(self, T.class_of(Formula))
+        url "foo-1.0"
+        conflicts_with "terraform"
+      end
+    end
 
     before { allow(Formulary).to receive(:factory).with("other").and_return(conflicting_formula) }
 
@@ -586,11 +593,7 @@ RSpec.describe FormulaInstaller do
     end
 
     it "ignores conflicts that name the formula being installed" do
-      f = formula("terraform", tap: Tap.fetch("thirdparty", "selfconflict")) do
-        T.bind(self, T.class_of(Formula))
-        url "foo-1.0"
-        conflicts_with "terraform"
-      end
+      f = self_conflicting_formula
 
       expect(Formulary).not_to receive(:factory)
 
