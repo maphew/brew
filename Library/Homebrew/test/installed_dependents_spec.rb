@@ -281,8 +281,8 @@ RSpec.describe InstalledDependents do
 
     specify "identify dependent casks" do
       setup_test_cask("qux", "1.0.0", "foo")
-      dependents = described_class.find_some_installed_dependents([keg]).last
-      expect(dependents.include?("qux")).to be(true)
+
+      expect(described_class.find_some_installed_dependents([keg])&.last).to include("qux")
     end
   end
 end
