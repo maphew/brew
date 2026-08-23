@@ -21,6 +21,17 @@ RSpec.describe Formula do
   alias_matcher :have_test_defined, :be_test_defined
   alias_matcher :pour_bottle, :be_pour_bottle
 
+  let(:post_install_steps_formula) do
+    formula "post-install-steps-prefix" do
+      T.bind(self, T.class_of(Formula))
+      url "foo-1.0"
+
+      post_install_steps do
+        symlink "source", "linked"
+      end
+    end
+  end
+
   describe "::new" do
     let(:klass) do
       Class.new(described_class) do
@@ -1286,14 +1297,7 @@ RSpec.describe Formula do
   end
 
   specify "#run_post_install_steps uses the versioned prefix" do
-    f = formula "post-install-steps-prefix" do
-      T.bind(self, T.class_of(Formula))
-      url "foo-1.0"
-
-      post_install_steps do
-        symlink "source", "linked"
-      end
-    end
+    f = post_install_steps_formula
 
     versioned_prefix = f.rack/f.pkg_version.to_s
     FileUtils.rm_f f.opt_prefix
